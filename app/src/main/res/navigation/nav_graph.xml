@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/grocery_nav_graph">
+    <!--    start destination must be an id-->
+
+    <include app:graph="@navigation/grocery_nav_graph" />
+    <include app:graph="@navigation/all_list_nav_graph" />
+
+</navigation>

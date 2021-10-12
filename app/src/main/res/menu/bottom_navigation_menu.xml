@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    item id should be same as that of nav graph name-->
+    <item
+        android:id="@+id/grocery_nav_graph"
+        android:enabled="true"
+        android:icon="@android:color/transparent"
+        android:title="@string/main_bottom_home" />
+    <!--    item id should be same as that of nav graph name-->
+    <item
+        android:id="@+id/all_list_nav_graph"
+        android:enabled="true"
+        android:icon="@android:color/transparent"
+        android:title="@string/main_bottom_all_list" />
+</menu>

@@ -19,6 +19,12 @@ class AllListRecyclerAdapter(private val context: Context, private val callback:
 
     init {
         groceryLists.clear()
+        val entity = ListsEntity()
+        groceryLists.add(entity)
+        groceryLists.add(entity)
+        groceryLists.add(entity)
+        groceryLists.add(entity)
+
     }
 
     fun setGroceryList(groceryLists: MutableList<ListsEntity>) {
@@ -48,7 +54,7 @@ class AllListRecyclerAdapter(private val context: Context, private val callback:
     }
 
     override fun getItemCount(): Int {
-        return 4
+        return groceryLists.size
     }
 
     inner class MyViewHolder(private val view: View, private val context: Context, private val binding: RecyclerLayoutAllListsBinding, private val callback: IAllListRecyclerCallBack, private val groceryLists: List<ListsEntity>) : RecyclerView.ViewHolder(view), View.OnClickListener {

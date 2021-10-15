@@ -69,7 +69,7 @@ class GroceryListsFragment : Fragment(), GroceryListRecyclerAdapter.IGroceryList
 
     private fun initCode(view: View) {
         binding.lifecycleOwner = this
-        binding.grocery = GroceryListsFragment()
+        binding.grocery = this@GroceryListsFragment
         navController = Navigation.findNavController(view)
 
         initRecycler()
@@ -81,12 +81,16 @@ class GroceryListsFragment : Fragment(), GroceryListRecyclerAdapter.IGroceryList
     todo: recycler view          */
 
     private fun initRecycler() {
-        val layoutManager = LinearLayoutManager(context)
-        binding.rvGroceryLists.layoutManager = layoutManager
+        context?.let {
+            val layoutManager = LinearLayoutManager(it)
+            binding.rvGroceryLists.layoutManager = layoutManager
+        }
     }
 
     private fun defineRecycler() {
-        recyclerAdapter = GroceryListRecyclerAdapter(context!!, this)
+        context?.let {
+            recyclerAdapter = GroceryListRecyclerAdapter(it, this@GroceryListsFragment)
+        }
         binding.rvGroceryLists.setHasFixedSize(true)
         binding.rvGroceryLists.adapter = recyclerAdapter
     }

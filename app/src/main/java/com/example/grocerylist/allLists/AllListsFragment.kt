@@ -71,7 +71,7 @@ class AllListsFragment : Fragment(), View.OnClickListener, AllListRecyclerAdapte
 
     private fun initCode(view: View) {
         binding.lifecycleOwner = this
-        binding.allLists = AllListsFragment()
+        binding.allLists = this@AllListsFragment
         navController = Navigation.findNavController(view)
         binding.floatingActionButton.setOnClickListener(this)
 
@@ -89,12 +89,16 @@ class AllListsFragment : Fragment(), View.OnClickListener, AllListRecyclerAdapte
     todo: recycler view          */
 
     private fun initRecycler() {
-        val layoutManager = LinearLayoutManager(context)
-        binding.rvAllLists.layoutManager = layoutManager
+        context?.let {
+            val layoutManager = LinearLayoutManager(it)
+            binding.rvAllLists.layoutManager = layoutManager
+        }
     }
 
     private fun defineRecycler() {
-        recyclerAdapter = AllListRecyclerAdapter(context!!, this@AllListsFragment)
+        context?.let {
+            recyclerAdapter = AllListRecyclerAdapter(it, this@AllListsFragment)
+        }
         binding.rvAllLists.setHasFixedSize(true)
         binding.rvAllLists.adapter = recyclerAdapter
     }

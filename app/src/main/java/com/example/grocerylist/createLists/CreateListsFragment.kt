@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -13,6 +15,7 @@ import com.example.grocerylist.R
 import com.example.grocerylist.createLists.adapters.CreateListRecyclerAdapter
 import com.example.grocerylist.databinding.FragmentCreateListsBinding
 import com.example.grocerylist.utils.showToast
+import com.example.grocerylist.utils.showToastLong
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -50,7 +53,6 @@ class CreateListsFragment : Fragment(), View.OnClickListener, CreateListRecycler
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             CreateListsFragment().apply {
@@ -69,14 +71,17 @@ class CreateListsFragment : Fragment(), View.OnClickListener, CreateListRecycler
 
     private fun initCode(view: View) {
         binding.lifecycleOwner = this
-        binding.createLists = CreateListsFragment()
+        binding.createLists = this@CreateListsFragment
         navController = Navigation.findNavController(view)
         binding.floatingActionButton.setOnClickListener(this)
 
-        showToast(activity,)
         initRecycler()
         defineRecycler()
+        showSavingToast()
+        enableOnBackPress()
     }
+
+    private fun showSavingToast() = context?.let { showToastLong(it, "Press Back Button to Save the List") }
 
     override fun onClick(v: View?) {
         if (v == binding.floatingActionButton)
@@ -87,22 +92,40 @@ class CreateListsFragment : Fragment(), View.OnClickListener, CreateListRecycler
 
     todo: recycler view          */
 
-    private fun initRecycler() {
-        val layoutManager = LinearLayoutManager(context)
-        binding.rvCreateLists.layoutManager = layoutManager
-    }
+    private fun initRecycler() =
+        context?.let {
+            val layoutManager = LinearLayoutManager(it)
+            binding.rvCreateLists.layoutManager = layoutManager
+        }
 
     private fun defineRecycler() {
-        recyclerAdapter = CreateListRecyclerAdapter(context!!, this@CreateListsFragment)
+        context?.let {
+            recyclerAdapter = CreateListRecyclerAdapter(it, this@CreateListsFragment)
+        }
         binding.rvCreateLists.setHasFixedSize(true)
         binding.rvCreateLists.adapter = recyclerAdapter
     }
 
-    private fun addGroceryItems() {
-        recyclerAdapter.addGroceryItem()
-    }
+
+    private fun addGroceryItems() = recyclerAdapter.addGroceryItem()
 
     override fun onRecyclerClick(position: Int) {
 
+    }
+
+    /*
+
+    todo: save list to room          */
+
+    private fun enableOnBackPress() {
+        context?.let {
+            requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
+                override fun handleOnBackPressed() {
+                    
+                    context?.let { showToast(it, "Saved") }
+                    navController.popBackStack()
+                }
+            })
+        }
     }
 }

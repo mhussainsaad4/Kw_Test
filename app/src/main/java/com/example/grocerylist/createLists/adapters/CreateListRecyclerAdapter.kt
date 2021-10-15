@@ -1,12 +1,10 @@
 package com.example.grocerylist.createLists.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.RecyclerLayoutCreateListsBinding
@@ -37,8 +35,7 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
 
     fun addGroceryItem() {
         groceryLists.add("Type Here...")
-//        notifyItemChanged(0)
-        notifyItemInserted(groceryLists.size-1)
+        notifyItemInserted(groceryLists.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -67,7 +64,7 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
         override fun onClick(v: View?) = callback.onRecyclerClick(adapterPosition)
 
         fun setRowData(position: Int) {
-            binding.etListItems.setText(groceryLists.get(position))
+
         }
     }
 

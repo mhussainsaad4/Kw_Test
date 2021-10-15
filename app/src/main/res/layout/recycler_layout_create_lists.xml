@@ -9,7 +9,7 @@
         android:background="@android:color/transparent">
 
         <EditText
-            android:id="@+id/etListItems"
+            android:id="@+id/etListItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"

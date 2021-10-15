@@ -6,7 +6,7 @@ import androidx.room.*
 interface ListsDataAccessObjectDao {
 
     @Query("SELECT * FROM UserGroceryLists")
-    suspend fun getAll(): List<ListsEntity>
+    suspend fun getAllGroceryLists(): List<ListsEntity>
 
     @Insert
     suspend fun insertNewList(listsEntity: ListsEntity)

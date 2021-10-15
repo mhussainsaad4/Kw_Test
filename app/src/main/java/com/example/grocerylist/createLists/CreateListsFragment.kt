@@ -81,7 +81,7 @@ class CreateListsFragment : Fragment(), View.OnClickListener, CreateListRecycler
         enableOnBackPress()
     }
 
-    private fun showSavingToast() = context?.let { showToastLong(it, "Press Back Button to Save the List") }
+    private fun showSavingToast() = context?.let { showToastLong(it, it.getString(R.string.create_list_toast_back)) }
 
     override fun onClick(v: View?) {
         if (v == binding.floatingActionButton)
@@ -119,10 +119,10 @@ class CreateListsFragment : Fragment(), View.OnClickListener, CreateListRecycler
 
     private fun enableOnBackPress() {
         context?.let {
-            requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
+            requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    
-                    context?.let { showToast(it, "Saved") }
+
+                    context?.let { showToast(it, it.getString(R.string.create_list_toast_saved)) }
                     navController.popBackStack()
                 }
             })

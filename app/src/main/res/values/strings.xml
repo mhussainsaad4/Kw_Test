@@ -16,5 +16,8 @@
 
     <!--    Create List-->
     <string name="create_list_heading">List Name</string>
+    <string name="create_list_type">Type Here…</string>
+    <string name="create_list_toast_back">Press Back Button to Save the List</string>
+    <string name="create_list_toast_saved">Saved</string>
 
 </resources>

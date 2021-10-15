@@ -1,11 +1,11 @@
-package org.dropby.app.database
+package com.example.grocerylist.database
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.grocerylist.application.GroceryListApplication
-import org.dropby.app.database.contacts.ListsDataAccessObjectDao
-import org.dropby.app.database.contacts.ListsEntity
+import com.example.grocerylist.database.lists.ListsDataAccessObjectDao
+import com.example.grocerylist.database.lists.ListsEntity
 
 @Database(entities = arrayOf(ListsEntity::class), version = 1, exportSchema = false)               //export schema don't keep instance of older versions in memory
 abstract class GroceryListAppDatabase : RoomDatabase() {

@@ -1,4 +1,4 @@
-package org.dropby.app.database.contacts
+package com.example.grocerylist.database.lists
 
 import androidx.room.*
 
@@ -9,20 +9,20 @@ interface ListsDataAccessObjectDao {
     suspend fun getAll(): List<ListsEntity>
 
     @Insert
-    suspend fun insertAll(listsList: MutableList<ListsEntity>)
+    suspend fun insertNewList(listsEntity: ListsEntity)
 
     @Insert
-    suspend fun insertAll(vararg userList: ListsEntity)           //var arg means variable number of arguments from Kotlin
+    suspend fun insertMultipleList(vararg userList: ListsEntity)           //var arg means variable number of arguments from Kotlin
 
     @Delete
     suspend fun delete(userLists: ListsEntity)
 
     @Query("DELETE FROM UserGroceryLists")
-    suspend fun deleteContactsTable()
+    suspend fun deleteGroceryListsTable()
 
     @Transaction
-    suspend fun deleteAndInsert(listsList: MutableList<ListsEntity>) {
-        deleteContactsTable()
-        insertAll(listsList)
+    suspend fun deleteAndInsert(listsList: ListsEntity) {
+        deleteGroceryListsTable()
+        insertNewList(listsList)
     }
 }

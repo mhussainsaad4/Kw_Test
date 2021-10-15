@@ -12,20 +12,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.FragmentGroceryListsBinding
 import com.example.grocerylist.groceryLists.adapters.GroceryListRecyclerAdapter
-import com.example.grocerylist.groceryLists.callbacks.IGroceryListRecyclerCallBack
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
-class GroceryListsFragment : Fragment(), IGroceryListRecyclerCallBack {
+@AndroidEntryPoint
+class GroceryListsFragment : Fragment(), GroceryListRecyclerAdapter.IGroceryListRecyclerCallBack {
 
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentGroceryListsBinding
     private lateinit var navController: NavController
-    private lateinit var recyclerAdapter: GroceryListRecyclerAdapter
+
+    @Inject
+    lateinit var recyclerAdapter: GroceryListRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +43,7 @@ class GroceryListsFragment : Fragment(), IGroceryListRecyclerCallBack {
         savedInstanceState: Bundle?
     ): View? {
 //        inflater.inflate(R.layout.fragment_grocery_lists, container, false)
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_grocery_lists,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_grocery_lists, container, false)
         val view: View = binding.root
 
         return view

@@ -1,5 +1,6 @@
 package com.example.grocerylist.allLists.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,23 @@ import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
-import com.example.grocerylist.allLists.callbacks.IAllListRecyclerCallBack
 import com.example.grocerylist.databinding.RecyclerLayoutAllListsBinding
-import org.dropby.app.database.contacts.ListsEntity
+import dagger.hilt.android.qualifiers.ActivityContext
+import com.example.grocerylist.database.lists.ListsEntity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class AllListRecyclerAdapter(private val context: Context, private val callback: IAllListRecyclerCallBack) : RecyclerView.Adapter<AllListRecyclerAdapter.MyViewHolder>() {
+@Singleton
+class AllListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<AllListRecyclerAdapter.MyViewHolder>() {
 
     private var groceryLists = mutableListOf<ListsEntity>()
+    private lateinit var context: Context
+    lateinit var callback: IAllListRecyclerCallBack             //it shouldn't be private for dependency injection
+
+    constructor(@ActivityContext context: Context, callback: IAllListRecyclerCallBack) : this() {
+        this.context = context
+        this.callback = callback
+    }
 
     init {
         groceryLists.clear()
@@ -31,6 +41,7 @@ class AllListRecyclerAdapter(private val context: Context, private val callback:
         this.groceryLists = groceryLists
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addGroceryListItem(entity: ListsEntity) {
         groceryLists.add(entity)
         notifyDataSetChanged()
@@ -38,7 +49,7 @@ class AllListRecyclerAdapter(private val context: Context, private val callback:
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding:RecyclerLayoutAllListsBinding = DataBindingUtil.inflate(inflater, R.layout.recycler_layout_all_lists, parent, false)
+        val binding: RecyclerLayoutAllListsBinding = DataBindingUtil.inflate(inflater, R.layout.recycler_layout_all_lists, parent, false)
         val view: View = binding.root
 
         return MyViewHolder(view, context, binding, callback, groceryLists)
@@ -57,7 +68,7 @@ class AllListRecyclerAdapter(private val context: Context, private val callback:
         return groceryLists.size
     }
 
-    inner class MyViewHolder(private val view: View, private val context: Context, private val binding: RecyclerLayoutAllListsBinding, private val callback: IAllListRecyclerCallBack, private val groceryLists: List<ListsEntity>) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class MyViewHolder(private val view: View, @ActivityContext private val context: Context, private val binding: RecyclerLayoutAllListsBinding, private val callback: IAllListRecyclerCallBack, private val groceryLists: List<ListsEntity>) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         init {
             view.setOnClickListener(this)
@@ -68,5 +79,9 @@ class AllListRecyclerAdapter(private val context: Context, private val callback:
         fun setRowData(position: Int) {
 
         }
+    }
+
+    interface IAllListRecyclerCallBack {
+        fun onRecyclerClick(position: Int)
     }
 }

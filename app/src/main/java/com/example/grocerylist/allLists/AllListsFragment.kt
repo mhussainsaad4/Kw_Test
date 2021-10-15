@@ -12,24 +12,26 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.grocerylist.R
 import com.example.grocerylist.allLists.adapters.AllListRecyclerAdapter
-import com.example.grocerylist.allLists.callbacks.IAllListRecyclerCallBack
 import com.example.grocerylist.databinding.FragmentAllListsBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.dropby.app.database.contacts.ListsEntity
+import dagger.hilt.android.AndroidEntryPoint
+import com.example.grocerylist.database.lists.ListsEntity
+import javax.inject.Inject
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
-class AllListsFragment : Fragment(), View.OnClickListener, IAllListRecyclerCallBack {
+@AndroidEntryPoint
+class AllListsFragment : Fragment(), View.OnClickListener, AllListRecyclerAdapter.IAllListRecyclerCallBack {
 
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentAllListsBinding
     private lateinit var navController: NavController
-    private lateinit var recyclerAdapter: AllListRecyclerAdapter
+
+    @Inject
+    lateinit var recyclerAdapter: AllListRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +94,7 @@ class AllListsFragment : Fragment(), View.OnClickListener, IAllListRecyclerCallB
     }
 
     private fun defineRecycler() {
-        recyclerAdapter = AllListRecyclerAdapter(context!!, this)
+        recyclerAdapter = AllListRecyclerAdapter(context!!, this@AllListsFragment)
         binding.rvAllLists.setHasFixedSize(true)
         binding.rvAllLists.adapter = recyclerAdapter
     }

@@ -1,4 +1,4 @@
-package org.dropby.app.database.contacts
+package com.example.grocerylist.database.lists
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

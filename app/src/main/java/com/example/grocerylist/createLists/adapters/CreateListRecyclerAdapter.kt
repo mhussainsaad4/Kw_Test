@@ -1,5 +1,6 @@
 package com.example.grocerylist.createLists.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -8,29 +9,36 @@ import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
-import com.example.grocerylist.createLists.callbacks.ICreateListRecyclerCallBack
 import com.example.grocerylist.databinding.RecyclerLayoutCreateListsBinding
-import org.dropby.app.database.contacts.ListsEntity
+import dagger.hilt.android.qualifiers.ActivityContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
+class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<CreateListRecyclerAdapter.MyViewHolder>() {
 
-class CreateListRecyclerAdapter(private val context: Context, private val callback: ICreateListRecyclerCallBack) : RecyclerView.Adapter<CreateListRecyclerAdapter.MyViewHolder>() {
+    private var groceryLists = arrayListOf<String>()
+    private lateinit var context: Context
+    lateinit var callback: ICreateListRecyclerCallBack                        //it shouldn't be private for dependency injection
 
-    private var groceryLists = mutableListOf<String>()
+    constructor(@ActivityContext context: Context, callback: ICreateListRecyclerCallBack) : this() {
+        this.context = context
+        this.callback = callback
+    }
 
     init {
         groceryLists.clear()
-        groceryLists.add("ketchup")
-        groceryLists.add("rice")
         groceryLists.add("Type Here...")
     }
 
-    fun setGroceryList(groceryLists: MutableList<String>) {
+    fun setGroceryList(groceryLists: ArrayList<String>) {
         this.groceryLists = groceryLists
     }
 
     fun addGroceryItem() {
         groceryLists.add("Type Here...")
-        notifyDataSetChanged()
+//        notifyItemChanged(0)
+        notifyItemInserted(groceryLists.size-1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -50,7 +58,7 @@ class CreateListRecyclerAdapter(private val context: Context, private val callba
         return groceryLists.size
     }
 
-    inner class MyViewHolder(private val view: View, private val context: Context, private val binding: RecyclerLayoutCreateListsBinding, private val callback: ICreateListRecyclerCallBack, private val groceryLists: List<String>) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class MyViewHolder(private val view: View, @ActivityContext private val context: Context, private val binding: RecyclerLayoutCreateListsBinding, private val callback: ICreateListRecyclerCallBack, private val groceryLists: ArrayList<String>) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         init {
             view.setOnClickListener(this)
@@ -61,5 +69,9 @@ class CreateListRecyclerAdapter(private val context: Context, private val callba
         fun setRowData(position: Int) {
             binding.etListItems.setText(groceryLists.get(position))
         }
+    }
+
+    interface ICreateListRecyclerCallBack {
+        fun onRecyclerClick(position: Int)
     }
 }

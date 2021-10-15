@@ -11,20 +11,25 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.grocerylist.R
 import com.example.grocerylist.createLists.adapters.CreateListRecyclerAdapter
-import com.example.grocerylist.createLists.callbacks.ICreateListRecyclerCallBack
 import com.example.grocerylist.databinding.FragmentCreateListsBinding
+import com.example.grocerylist.utils.showToast
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class CreateListsFragment : Fragment(), View.OnClickListener, ICreateListRecyclerCallBack {
+@AndroidEntryPoint
+class CreateListsFragment : Fragment(), View.OnClickListener, CreateListRecyclerAdapter.ICreateListRecyclerCallBack {
 
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentCreateListsBinding
     private lateinit var navController: NavController
-    private lateinit var recyclerAdapter: CreateListRecyclerAdapter
+
+    @Inject
+    lateinit var recyclerAdapter: CreateListRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +73,7 @@ class CreateListsFragment : Fragment(), View.OnClickListener, ICreateListRecycle
         navController = Navigation.findNavController(view)
         binding.floatingActionButton.setOnClickListener(this)
 
+        showToast(activity,)
         initRecycler()
         defineRecycler()
     }
@@ -87,7 +93,7 @@ class CreateListsFragment : Fragment(), View.OnClickListener, ICreateListRecycle
     }
 
     private fun defineRecycler() {
-        recyclerAdapter = CreateListRecyclerAdapter(context!!, this)
+        recyclerAdapter = CreateListRecyclerAdapter(context!!, this@CreateListsFragment)
         binding.rvCreateLists.setHasFixedSize(true)
         binding.rvCreateLists.adapter = recyclerAdapter
     }

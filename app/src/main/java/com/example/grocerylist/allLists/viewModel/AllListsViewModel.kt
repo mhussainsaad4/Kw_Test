@@ -2,7 +2,10 @@ package com.example.grocerylist.allLists.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AllListsViewModel(application: Application) : AndroidViewModel(application)  {
+@HiltViewModel
+class AllListsViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
 }

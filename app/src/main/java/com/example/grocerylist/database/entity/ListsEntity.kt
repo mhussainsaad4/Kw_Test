@@ -1,4 +1,4 @@
-package com.example.grocerylist.database.lists
+package com.example.grocerylist.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey
 data class ListsEntity(
     @PrimaryKey(autoGenerate = true) val listId: Int = 0,           //auto increment
     @ColumnInfo(name = "listName") val listName: String?,
-    @ColumnInfo(name = "listEntries") val listEntriesString: String?,           //will be added by type converters
+    @ColumnInfo(name = "listEntries") val listEntries: MutableList<String>?,           //will be added by type converters
     @ColumnInfo(name = "status") val status: String?
 ) {
-    constructor(name: String, listEntriesString: String, status: String) : this(0, name, listEntriesString, status)
+    constructor(name: String, listEntries: MutableList<String>, status: String) : this(0, name, listEntries, status)
 
-    constructor() : this(0, "name", "listEntriesString", "status")
+    constructor() : this(0, "name", mutableListOf<String>("listEntries"), "status")
 }

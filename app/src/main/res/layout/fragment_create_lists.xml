@@ -23,6 +23,7 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/app_light_gray"
             android:contentDescription="@string/grocery_list_add_list"
+            android:onClick="@{()->createLists.addGroceryItems()}"
             app:borderWidth="0dp"
             app:srcCompat="@drawable/ic_baseline_add_24"
             app:tint="@color/white" />

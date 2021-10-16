@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.RecyclerLayoutGroceryListsBinding
 import dagger.hilt.android.qualifiers.ActivityContext
-import com.example.grocerylist.database.lists.ListsEntity
+import com.example.grocerylist.database.entity.ListsEntity
 import javax.inject.Inject
 
 

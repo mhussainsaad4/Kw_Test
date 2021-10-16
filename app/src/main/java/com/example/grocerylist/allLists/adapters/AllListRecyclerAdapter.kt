@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.RecyclerLayoutAllListsBinding
 import dagger.hilt.android.qualifiers.ActivityContext
-import com.example.grocerylist.database.lists.ListsEntity
+import com.example.grocerylist.database.entity.ListsEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,22 +29,16 @@ class AllListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<AllLis
 
     init {
         groceryLists.clear()
-        val entity = ListsEntity()
-        groceryLists.add(entity)
-        groceryLists.add(entity)
-        groceryLists.add(entity)
-        groceryLists.add(entity)
+//        val entity = ListsEntity()
+//        groceryLists.add(entity)
+//        groceryLists.add(entity)
+//        groceryLists.add(entity)
+//        groceryLists.add(entity)
 
     }
 
     fun setGroceryList(groceryLists: MutableList<ListsEntity>) {
         this.groceryLists = groceryLists
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun addGroceryListItem(entity: ListsEntity) {
-        groceryLists.add(entity)
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -77,7 +71,7 @@ class AllListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<AllLis
         override fun onClick(v: View?) = callback.onRecyclerClick(adapterPosition)
 
         fun setRowData(position: Int) {
-
+            groceryLists.get(position).listName?.let { binding.tvListName.text = it }
         }
     }
 

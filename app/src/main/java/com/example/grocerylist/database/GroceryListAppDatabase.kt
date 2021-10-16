@@ -3,14 +3,17 @@ package com.example.grocerylist.database
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.grocerylist.application.GroceryListApplication
-import com.example.grocerylist.database.lists.ListsDataAccessObjectDao
-import com.example.grocerylist.database.lists.ListsEntity
+import com.example.grocerylist.database.converter.ListConverters
+import com.example.grocerylist.database.dao.ListsDataAccessObjectDao
+import com.example.grocerylist.database.entity.ListsEntity
 
 @Database(entities = arrayOf(ListsEntity::class), version = 1, exportSchema = false)               //export schema don't keep instance of older versions in memory
+@TypeConverters(ListConverters::class)
 abstract class GroceryListAppDatabase : RoomDatabase() {
 
-    abstract fun contactsDao(): ListsDataAccessObjectDao
+    abstract fun groceryListsDao(): ListsDataAccessObjectDao
 
     companion object {                                                                  // Singleton prevents multiple instances of database opening at the same time.
 

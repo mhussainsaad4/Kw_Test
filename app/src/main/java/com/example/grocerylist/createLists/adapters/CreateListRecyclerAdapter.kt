@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.RecyclerLayoutCreateListsBinding
@@ -23,15 +22,21 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
     constructor(@ActivityContext context: Context, callback: ICreateListRecyclerCallBack) : this() {
         this.context = context
         this.callback = callback
+
+        initCode()
     }
 
-    init {
+    private fun initCode() {
         groceryLists.clear()
         groceryLists.add(context.getString(R.string.create_list_type))
     }
 
     fun setGroceryList(groceryLists: ArrayList<String>) {
         this.groceryLists = groceryLists
+    }
+
+    fun getGroceryList(): ArrayList<String> {
+        return this.groceryLists
     }
 
     fun addGroceryItem() {

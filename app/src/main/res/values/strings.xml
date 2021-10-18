@@ -10,14 +10,18 @@
     <!--    Grocery-->
     <string name="grocery_list_heading">Grocery List</string>
     <string name="grocery_list_add_list">Add List</string>
+    <string name="grocery_list_new_list">No Pending List to Show. Go to All Lists Section and Create a New List.</string>
+
 
     <!--    All Lists-->
     <string name="all_list_heading">All Lists</string>
+    <string name="all_list_new_list">Click on the + icon to create a new list\n No List to Show.</string>
 
     <!--    Create List-->
     <string name="create_list_heading">List Name</string>
     <string name="create_list_type">Type Here…</string>
     <string name="create_list_toast_back">Press Back Button to Save the List</string>
+    <string name="create_list_toast_empty">Unable to save Empty List</string>
     <string name="create_list_toast_saved">Saved</string>
 
 </resources>

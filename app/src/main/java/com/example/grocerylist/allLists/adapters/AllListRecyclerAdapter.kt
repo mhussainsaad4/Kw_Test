@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.RecyclerLayoutAllListsBinding
 import dagger.hilt.android.qualifiers.ActivityContext
 import com.example.grocerylist.database.entity.ListsEntity
+import com.example.grocerylist.utils.K.Constants.Companion.STATUS_COMPLETED
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,12 +31,6 @@ class AllListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<AllLis
 
     init {
         groceryLists.clear()
-//        val entity = ListsEntity()
-//        groceryLists.add(entity)
-//        groceryLists.add(entity)
-//        groceryLists.add(entity)
-//        groceryLists.add(entity)
-
     }
 
     fun setGroceryList(groceryLists: MutableList<ListsEntity>) {
@@ -71,8 +67,16 @@ class AllListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<AllLis
         override fun onClick(v: View?) = callback.onRecyclerClick(adapterPosition)
 
         fun setRowData(position: Int) {
-            groceryLists.get(position).listName?.let { binding.tvListName.text = it }
+            setListName(position)
+            changeBackgroundForCompletedLists(position)
         }
+
+        private fun setListName(position: Int) = groceryLists[position].listName?.let { binding.tvListName.text = it }
+
+
+        private fun changeBackgroundForCompletedLists(position: Int) = if (groceryLists[position].status.equals(STATUS_COMPLETED)) binding.clAllLists.setBackgroundColor(ContextCompat.getColor(context, android.R.color.holo_green_light))
+        else binding.clAllLists.setBackgroundColor(ContextCompat.getColor(context, R.color.app_mid_gray))
+
     }
 
     interface IAllListRecyclerCallBack {

@@ -28,6 +28,4 @@ class CreateListsViewModel @Inject constructor(application: Application) : Andro
             }
         }
     }
-
-
 }

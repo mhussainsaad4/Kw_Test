@@ -13,6 +13,13 @@ interface ListsDataAccessObjectDao {
     @Query("SELECT * FROM UserGroceryLists")
     fun getAllGroceryListsRealtime(): Flow<MutableList<ListsEntity>>
 
+    //todo get last added pending status row
+    @Query("SELECT * FROM UserGroceryLists WHERE status = :status  ORDER BY listId DESC LIMIT 1")
+    suspend fun getLastPendingList(status: String): ListsEntity
+
+    @Query("UPDATE UserGroceryLists SET status = :status WHERE listId = :listId")
+    fun updateCompletedListStatus(listId: String, status: String): Int
+
     @Insert
     suspend fun insertNewList(listsEntity: ListsEntity)
 

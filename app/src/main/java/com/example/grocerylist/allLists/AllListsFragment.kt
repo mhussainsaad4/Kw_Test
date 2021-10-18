@@ -18,6 +18,7 @@ import com.example.grocerylist.allLists.viewModel.AllListsViewModel
 import com.example.grocerylist.databinding.FragmentAllListsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.grocerylist.database.entity.ListsEntity
+import com.example.grocerylist.utils.K.BundleConstants.Companion.LIST_SELECTED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,6 +38,7 @@ class AllListsFragment : Fragment(), AllListRecyclerAdapter.IAllListRecyclerCall
 
     private lateinit var binding: FragmentAllListsBinding
     private lateinit var navController: NavController
+    private lateinit var entitiesList: MutableList<ListsEntity>
 
     @Inject
     lateinit var recyclerAdapter: AllListRecyclerAdapter
@@ -83,10 +85,11 @@ class AllListsFragment : Fragment(), AllListRecyclerAdapter.IAllListRecyclerCall
         binding.lifecycleOwner = this
         binding.allLists = this@AllListsFragment
         navController = Navigation.findNavController(view)
+        entitiesList = mutableListOf()
 
         initRecycler()
         defineRecycler()
-        val job = CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             collectRecyclerData()
         }
     }
@@ -95,33 +98,39 @@ class AllListsFragment : Fragment(), AllListRecyclerAdapter.IAllListRecyclerCall
 
     todo: recycler view          */
 
-    private fun initRecycler() {
-        context?.let {
-            val layoutManager = LinearLayoutManager(it)
-            binding.rvAllLists.layoutManager = layoutManager
-        }
+    private fun initRecycler() = context?.let {
+        val layoutManager = LinearLayoutManager(it)
+        binding.rvAllLists.layoutManager = layoutManager
     }
 
+
     private fun defineRecycler() {
-        context?.let {
-            recyclerAdapter = AllListRecyclerAdapter(it, this@AllListsFragment)
-        }
+        context?.let { recyclerAdapter = AllListRecyclerAdapter(it, this@AllListsFragment) }
         binding.rvAllLists.setHasFixedSize(true)
         binding.rvAllLists.adapter = recyclerAdapter
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @ExperimentalCoroutinesApi
-    private suspend fun collectRecyclerData() {
-        allListViewModel.getAllGroceryListsRealtime().collect {
+    private suspend fun collectRecyclerData() = allListViewModel.getAllGroceryListsRealtime().collect {
+        if (it.size != 0) {
+            entitiesList.addAll(it)
             recyclerAdapter.setGroceryList(it)
             recyclerAdapter.notifyDataSetChanged()
-        }
+        }else showNewListLayout()
     }
 
+    private fun showNewListLayout() {
+        binding.rvAllLists.visibility = View.GONE
+        binding.tvNewListLayout.visibility = View.VISIBLE
+    }
+
+
     override fun onRecyclerClick(position: Int) {
-        val bundle = bundleOf("listSelected" to position)
-        navController.navigate(R.id.action_allListsFragment_to_createListsFragment, bundle)
+        if (entitiesList.isNotEmpty()) {
+            val bundle = bundleOf(LIST_SELECTED to entitiesList[position])
+            navController.navigate(R.id.action_allListsFragment_to_createListsFragment, bundle)
+        }
     }
 
     fun addGroceryListItems() = navController.navigate(R.id.action_allListsFragment_to_createListsFragment)

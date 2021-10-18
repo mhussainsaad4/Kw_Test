@@ -18,10 +18,12 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
     private var groceryLists = arrayListOf<String>()
     private lateinit var context: Context
     lateinit var callback: ICreateListRecyclerCallBack                        //it shouldn't be private for dependency injection
+    private var isReadOnly = false
 
-    constructor(@ActivityContext context: Context, callback: ICreateListRecyclerCallBack) : this() {
+    constructor(@ActivityContext context: Context, callback: ICreateListRecyclerCallBack, isReadOnly: Boolean) : this() {
         this.context = context
         this.callback = callback
+        this.isReadOnly = isReadOnly
 
         initCode()
     }
@@ -49,7 +51,7 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
         val binding: RecyclerLayoutCreateListsBinding = DataBindingUtil.inflate(inflater, R.layout.recycler_layout_create_lists, parent, false)
         val view: View = binding.root
 
-        return MyViewHolder(view, context, binding, callback, groceryLists)
+        return MyViewHolder(view, context, binding, callback, groceryLists, isReadOnly)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -61,7 +63,7 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
         return groceryLists.size
     }
 
-    inner class MyViewHolder(private val view: View, @ActivityContext private val context: Context, private val binding: RecyclerLayoutCreateListsBinding, private val callback: ICreateListRecyclerCallBack, private val groceryLists: ArrayList<String>) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class MyViewHolder(private val view: View, @ActivityContext private val context: Context, private val binding: RecyclerLayoutCreateListsBinding, private val callback: ICreateListRecyclerCallBack, private val groceryLists: ArrayList<String>, private val isReadOnly: Boolean) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         init {
             view.setOnClickListener(this)
@@ -70,7 +72,10 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
         override fun onClick(v: View?) = callback.onRecyclerClick(adapterPosition)
 
         fun setRowData(position: Int) {
-
+            if (isReadOnly){
+                binding.etListItem.keyListener = null
+                binding.etListItem.setText(groceryLists[position])
+            }
         }
     }
 

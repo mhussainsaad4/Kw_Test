@@ -152,8 +152,8 @@ class CreateListsFragment : Fragment(), CreateListRecyclerAdapter.ICreateListRec
         val groceryLists = mutableListOf<String>()
 
         for (index in 0 until size) {
-            val row: View? = binding.rvCreateLists.layoutManager?.findViewByPosition(index)
-            val rowText = row?.findViewById<EditText>(R.id.etListItem)?.text.toString()
+            val row: View? = binding.rvCreateLists.layoutManager?.findViewByPosition(index)         //get row by position
+            val rowText = row?.findViewById<EditText>(R.id.etListItem)?.text.toString()             //get row text
             groceryLists.add(rowText)
         }
 

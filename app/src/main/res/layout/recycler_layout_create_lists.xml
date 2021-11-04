@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?attr/selectableItemBackground">
 
+    <data>
+
+        <variable
+            name="allListsAdapter"
+            type="com.example.grocerylist.createLists.adapters.CreateListRecyclerAdapter.MyViewHolder" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:hint="@string/create_list_type"
+            android:onClick="@{()->allListsAdapter.onBindingClick()}"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
             android:paddingEnd="16dp"

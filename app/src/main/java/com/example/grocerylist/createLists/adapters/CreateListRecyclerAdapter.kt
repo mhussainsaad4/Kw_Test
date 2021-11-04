@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.example.grocerylist.R
 import com.example.grocerylist.databinding.RecyclerLayoutCreateListsBinding
+import com.example.grocerylist.utils.showToast
 import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -67,12 +68,17 @@ class CreateListRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Cre
 
         init {
             view.setOnClickListener(this)
+            binding.allListsAdapter = this@MyViewHolder
         }
 
         override fun onClick(v: View?) = callback.onRecyclerClick(adapterPosition)
 
+        fun onBindingClick() {
+            showToast(context,"DataBinding Click")
+        }
+
         fun setRowData(position: Int) {
-            if (isReadOnly){
+            if (isReadOnly) {
                 binding.etListItem.keyListener = null
                 binding.etListItem.setText(groceryLists[position])
             }
